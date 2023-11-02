@@ -25,7 +25,7 @@ namespace MovieRentalAPI.Main.Repositories
         {
             return await dataService.Get(id);
         }
-        public async Task<int> AddMovie(string Name, string Email, string Phone, bool isActive)
+        public async Task<int> AddCostumer(string Name, string Email, string Phone, bool isActive)
         {
             try
             {

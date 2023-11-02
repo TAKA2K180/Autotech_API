@@ -6,7 +6,7 @@ using MovieRentalAPI.Main.Repositories;
 
 namespace MovieRentalAPI.Main.Controllers.v1
 {
-    [Route("api/v1/movies")]
+    [Route("api/v1/Movies")]
     [ApiController]
     public class MoviesController : ControllerBase
     {
