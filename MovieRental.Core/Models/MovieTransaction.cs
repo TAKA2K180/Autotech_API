@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace MovieRental.Core.Models
 {
+    [DisplayName("Transactions")]
     public class MovieTransaction : BaseModel
     {
         public decimal TotalAmount { get; set; }

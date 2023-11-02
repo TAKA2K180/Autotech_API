@@ -25,50 +25,26 @@ namespace MovieRentalAPI.Main.Repositories
         {
             return await dataService.Get(id);
         }
-        public async Task<int> AddCostumer(string Name, string Email, string Phone, bool isActive)
+        public async Task AddCostumer(string Name, string Email, string Phone, bool isActive)
         {
-            try
+            await dataService.Create(new Costumer
             {
-                await dataService.Create(new Costumer
-                {
-                    Id = new Guid(),
-                    Name = Name,
-                    Email = Email,
-                    Phone = Phone,
-                    isActive = isActive
-                });
-                return 0;
-            }
-            catch (Exception)
-            {
-                return -1;
-            }
+                Id = new Guid(),
+                Name = Name,
+                Email = Email,
+                Phone = Phone,
+                isActive = isActive
+            });
         }
 
-        public async Task<int> DeleteCostumer(Guid id)
+        public async Task DeleteCostumer(Guid id)
         {
-            try
-            {
-                await dataService.Delete(id);
-                return 0;
-            }
-            catch (Exception)
-            {
-                return -1;
-            }
+            await dataService.Delete(id);
         }
 
-        public async Task<int> UpdateCostumer(Costumer costumer)
+        public async Task UpdateCostumer(Costumer costumer)
         {
-            try
-            {
-                await dataService.Update(costumer);
-                return 0;
-            }
-            catch (Exception)
-            {
-                return -1;
-            }
+            await dataService.Update(costumer);
         }
     }
 }

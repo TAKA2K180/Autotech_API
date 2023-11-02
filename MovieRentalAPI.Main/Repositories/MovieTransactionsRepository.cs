@@ -2,11 +2,14 @@
 using MovieRental.Core.Services;
 using MovieRentalAPI.Main.Data.Services;
 using MovieRentalAPI.Main.Data;
+using MovieRentalAPI.Main.Data.DTO;
 
 namespace MovieRentalAPI.Main.Repositories
 {
     public class MovieTransactionsRepository
     {
+        private readonly MoviesRepository _moviesRepository = new MoviesRepository();
+        private readonly CostumersRepository _costumerRepository = new CostumersRepository();
         private readonly IDataService<MovieTransaction> dataService = new GenericDataService<MovieTransaction>(new ApplicationDbContextFactory(null));
 
         public async Task<List<MovieTransaction>> GetAllTransactions()
@@ -15,6 +18,14 @@ namespace MovieRentalAPI.Main.Repositories
             List<MovieTransaction> result = new List<MovieTransaction>();
             foreach (var trans in transactionList)
             {
+                if (trans.FirstOrDefault().Movie == null)
+                {
+                    trans.FirstOrDefault().Movie = await _moviesRepository.GetMovieById(trans.FirstOrDefault().MovieId);
+                }
+                if (trans.FirstOrDefault().Costumer == null)
+                {
+                    trans.FirstOrDefault().Costumer = await _costumerRepository.GetCostumerById(trans.FirstOrDefault().CostumerId);
+                }
                 var translisting = trans.ToList();
                 result = translisting;
             }
@@ -26,52 +37,28 @@ namespace MovieRentalAPI.Main.Repositories
             return await dataService.Get(Id);
         }
 
-        public async Task<int> AddTransaction(decimal totalAmount, Movie movie, Guid movieId, Costumer costumer, Guid costumerId, DateTime transactionDate, bool isReturned)
+        public async Task AddTransaction(Guid movieId, Guid customerId, decimal totalAmount, bool isReturned)
         {
-            try
+            var movieTransaction = new MovieTransaction
             {
-                await dataService.Create(new MovieTransaction
-                {
-                    Id = new Guid(),
-                    TotalAmount = totalAmount,
-                    MovieId = movieId,
-                    Costumer = costumer,
-                    CostumerId = costumerId,
-                    TransactionDate = transactionDate,
-                    IsReturned = isReturned
-                });
-                return 0;
-            }
-            catch (Exception)
-            {
-                return -1;
-            }
+                TotalAmount = totalAmount,
+                MovieId = movieId,
+                CostumerId = customerId,
+                TransactionDate = DateTime.Now,
+                IsReturned = isReturned
+            };
+
+            await dataService.Create(movieTransaction);
         }
 
-        public async Task<int> DeleteTransaction(Guid id)
+        public async Task DeleteTransaction(Guid id)
         {
-            try
-            {
-                await dataService.Delete(id);
-                return 0;
-            }
-            catch (Exception)
-            {
-                return -1;
-            }
+            await dataService.Delete(id);
         }
 
-        public async Task<int> UpdateTransaction(MovieTransaction transaction)
+        public async Task UpdateTransaction(MovieTransaction transaction)
         {
-            try
-            {
-                await dataService.Update(transaction);
-                return 0;
-            }
-            catch (Exception)
-            {
-                return -1;
-            }
+            await dataService.Update(transaction);
         }
     }
 }
