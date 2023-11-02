@@ -34,7 +34,7 @@ namespace MovieRentalAPI.Main.Repositories
                 await dataService.Create(new Movie
                 {
                     Id = new Guid(),
-                    Name = Name,
+                    Title = Name,
                     Description = Description,
                     Price = Price,
                     Category = Category,
