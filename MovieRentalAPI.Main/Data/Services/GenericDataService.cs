@@ -37,7 +37,7 @@ namespace MovieRentalAPI.Main.Data.Services
             };
         }
 
-        public async Task<T> Get(Guid Id)
+        public async Task<T> GetById(Guid Id)
         {
             using (ApplicationDbContext context = _dbContextFactory.CreateDbContext())
             {
@@ -46,7 +46,7 @@ namespace MovieRentalAPI.Main.Data.Services
             };
         }
 
-        public async Task<List<T>> Getall()
+        public async Task<List<T>> GetAll()
         {
             using (ApplicationDbContext context = _dbContextFactory.CreateDbContext())
             {

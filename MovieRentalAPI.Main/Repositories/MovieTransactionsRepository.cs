@@ -3,6 +3,8 @@ using MovieRental.Core.Services;
 using MovieRentalAPI.Main.Data.Services;
 using MovieRentalAPI.Main.Data;
 using MovieRentalAPI.Main.Data.DTO;
+using MovieRental.Common.Classes.Generics;
+using System.Diagnostics;
 
 namespace MovieRentalAPI.Main.Repositories
 {
@@ -10,31 +12,36 @@ namespace MovieRentalAPI.Main.Repositories
     {
         private readonly MoviesRepository _moviesRepository = new MoviesRepository();
         private readonly CostumersRepository _costumerRepository = new CostumersRepository();
-        private readonly IDataService<MovieTransaction> dataService = new GenericDataService<MovieTransaction>(new ApplicationDbContextFactory(null));
+        private readonly IDataService<MovieTransaction> _dataService = new GenericDataService<MovieTransaction>(new ApplicationDbContextFactory(null));
+        private GenericFunctions _genericFunctions = new GenericFunctions();
 
         public async Task<List<MovieTransaction>> GetAllTransactions()
         {
-            var transactionList = await Task.WhenAll(dataService.Getall());
-            List<MovieTransaction> result = new List<MovieTransaction>();
-            foreach (var trans in transactionList)
-            {
-                if (trans.FirstOrDefault().Movie == null)
+            var transactionLists = await Task.WhenAll(_dataService.GetAll());
+
+            var result = transactionLists
+                .SelectMany(list => list)
+                .Select(async trans =>
                 {
-                    trans.FirstOrDefault().Movie = await _moviesRepository.GetMovieById(trans.FirstOrDefault().MovieId);
-                }
-                if (trans.FirstOrDefault().Costumer == null)
-                {
-                    trans.FirstOrDefault().Costumer = await _costumerRepository.GetCostumerById(trans.FirstOrDefault().CostumerId);
-                }
-                var translisting = trans.ToList();
-                result = translisting;
-            }
-            return result;
+                    await _genericFunctions.UpdateIfNullAsync(trans, nameof(trans.Movie), async () => await _moviesRepository.GetMovieById(trans.MovieId), movie => movie == null);
+                    await _genericFunctions.UpdateIfNullAsync(trans, nameof(trans.Costumer), async () => await _costumerRepository.GetCostumerById(trans.CostumerId), costumer => costumer == null);
+
+                    return trans;
+                });
+
+            return (await Task.WhenAll(result)).ToList();
         }
 
         public async Task<MovieTransaction> GetTransactionById(Guid Id)
         {
-            return await dataService.Get(Id);
+            var transactionLists = await Task.WhenAll(_dataService.GetById(Id));
+
+            foreach (var item in transactionLists)
+            {
+                await _genericFunctions.UpdateIfNullAsync(item, nameof(item.Movie), async () => await _moviesRepository.GetMovieById(item.MovieId), movie => movie == null);
+                await _genericFunctions.UpdateIfNullAsync(item, nameof(item.Costumer), async () => await _costumerRepository.GetCostumerById(item.CostumerId), costumer => costumer == null);
+            }
+            return transactionLists[0];
         }
 
         public async Task AddTransaction(Guid movieId, Guid customerId, decimal totalAmount, bool isReturned)
@@ -48,17 +55,17 @@ namespace MovieRentalAPI.Main.Repositories
                 IsReturned = isReturned
             };
 
-            await dataService.Create(movieTransaction);
+            await _dataService.Create(movieTransaction);
         }
 
         public async Task DeleteTransaction(Guid id)
         {
-            await dataService.Delete(id);
+            await _dataService.Delete(id);
         }
 
         public async Task UpdateTransaction(MovieTransaction transaction)
         {
-            await dataService.Update(transaction);
+            await _dataService.Update(transaction);
         }
     }
 }

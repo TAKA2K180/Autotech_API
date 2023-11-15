@@ -9,7 +9,7 @@ namespace MovieRentalAPI.Main.Data
     {
         private readonly DbContextOptions<ApplicationDbContext> _options;
         private readonly IConfiguration _configuration;
-        private const string CONSTRING = "Data Source=PORDZ;Database=dbo.MovieRental;Integrated Security=false;User ID=sa;Password=p@ssw0rd;Encrypt=false";
+        private const string CONSTRING = "Data Source=.\\SQLEXPRESS;Database=dbo.MovieRental;Integrated Security=false;User ID=sa;Password=,rhsm098;Encrypt=false";
 
         public ApplicationDbContextFactory()
         {

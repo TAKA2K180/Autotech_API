@@ -8,9 +8,9 @@ namespace MovieRental.Core.Services
 {
     public interface IDataService<T>
     {
-        Task<List<T>> Getall();
+        Task<List<T>> GetAll();
 
-        Task<T> Get(Guid Id);
+        Task<T> GetById(Guid Id);
 
         Task<T> Create(T entity);
 

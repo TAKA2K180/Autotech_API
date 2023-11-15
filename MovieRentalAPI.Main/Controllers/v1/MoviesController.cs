@@ -31,11 +31,11 @@ namespace MovieRentalAPI.Main.Controllers.v1
 
         // POST api/<MoviesController>
         [HttpPost]
-        public async Task<IActionResult> Post(string Name, string Description, decimal Price, string Category)
+        public async Task<IActionResult> Post(string Title, string Description, decimal Price, string Category)
         {
             try
             {
-                await _repository.AddMovie(Name, Description, Price, Category);
+                await _repository.AddMovie(Title, Description, Price, Category);
                 return Ok();
             }
             catch (Exception)

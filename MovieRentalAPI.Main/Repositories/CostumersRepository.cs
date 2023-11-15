@@ -2,6 +2,7 @@
 using MovieRental.Core.Services;
 using MovieRentalAPI.Main.Data;
 using MovieRentalAPI.Main.Data.Services;
+using System.Linq;
 
 namespace MovieRentalAPI.Main.Repositories
 {
@@ -11,19 +12,15 @@ namespace MovieRentalAPI.Main.Repositories
 
         public async Task<List<Costumer>> GetAllCostumer()
         {
-            var movieList = await Task.WhenAll(dataService.Getall());
+            var movieList = await Task.WhenAll(dataService.GetAll());
             List<Costumer> result = new List<Costumer>();
-            foreach (var movie in movieList)
-            {
-                var movielisting = movie.ToList();
-                result = movielisting;
-            }
+            result = movieList.Select(movie => movie.ToList()).LastOrDefault() ?? new List<Costumer>();
             return result;
         }
 
         public async Task<Costumer> GetCostumerById(Guid id)
         {
-            return await dataService.Get(id);
+            return await dataService.GetById(id);
         }
         public async Task AddCostumer(string Name, string Email, string Phone, bool isActive)
         {

@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33829.357
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieRentalAPI.Main", "MovieRentalAPI.Main\MovieRentalAPI.Main.csproj", "{27EAD1E4-FA24-4FBB-8D1A-2648015F71D2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieRentalAPI.Main", "MovieRentalAPI.Main\MovieRentalAPI.Main.csproj", "{27EAD1E4-FA24-4FBB-8D1A-2648015F71D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieRental.Core", "MovieRental.Core\MovieRental.Core.csproj", "{9857054E-4373-4F32-92EC-92C2CDF1FC5D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieRental.Core", "MovieRental.Core\MovieRental.Core.csproj", "{9857054E-4373-4F32-92EC-92C2CDF1FC5D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieRental.Common", "MovieRental.Common\MovieRental.Common.csproj", "{60407CDF-F705-4191-900B-2E8ACBF8DB1F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{9857054E-4373-4F32-92EC-92C2CDF1FC5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9857054E-4373-4F32-92EC-92C2CDF1FC5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9857054E-4373-4F32-92EC-92C2CDF1FC5D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60407CDF-F705-4191-900B-2E8ACBF8DB1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60407CDF-F705-4191-900B-2E8ACBF8DB1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60407CDF-F705-4191-900B-2E8ACBF8DB1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60407CDF-F705-4191-900B-2E8ACBF8DB1F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
