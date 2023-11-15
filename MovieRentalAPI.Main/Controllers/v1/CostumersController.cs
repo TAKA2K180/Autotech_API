@@ -31,7 +31,7 @@ namespace MovieRentalAPI.Main.Controllers.v1
         {
             try
             {
-                await _repository.AddCostumer(name, email, phone, isActive);
+                await _repository.AddCostumer(Guid.NewGuid(), name, email, phone, isActive);
                 return Ok();
             }
             catch (Exception)

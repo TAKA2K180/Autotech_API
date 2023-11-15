@@ -22,11 +22,11 @@ namespace MovieRentalAPI.Main.Repositories
         {
             return await dataService.GetById(id);
         }
-        public async Task AddCostumer(string Name, string Email, string Phone, bool isActive)
+        public async Task AddCostumer(Guid Id, string Name, string Email, string Phone, bool isActive)
         {
             await dataService.Create(new Costumer
             {
-                Id = new Guid(),
+                Id = Id,
                 Name = Name,
                 Email = Email,
                 Phone = Phone,

@@ -35,7 +35,7 @@ namespace MovieRentalAPI.Main.Controllers.v1
         {
             try
             {
-                await _repository.AddMovie(Title, Description, Price, Category);
+                await _repository.AddMovie(Guid.NewGuid(), Title, Description, Price, Category);
                 return Ok();
             }
             catch (Exception)

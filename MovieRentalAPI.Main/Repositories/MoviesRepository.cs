@@ -24,11 +24,11 @@ namespace MovieRentalAPI.Main.Repositories
             return await dataService.GetById(id);
         }
 
-        public async Task AddMovie(string Title, string Description, decimal Price, string Category)
+        public async Task AddMovie(Guid Id, string Title, string Description, decimal Price, string Category)
         {
             await dataService.Create(new Movie
             {
-                Id = new Guid(),
+                Id = Id,
                 Title = Title,
                 Description = Description,
                 Price = Price,
