@@ -41,12 +41,12 @@ namespace MovieRentalAPI.Main.Repositories
         {
             var rentList = await Task.WhenAll(_dataService.GetById(id));
 
-            foreach (var item in rentList)
+            await Task.WhenAll(rentList.Select(async item =>
             {
                 await _genericFunctions.UpdateIfNullAsync(item, nameof(item.Movie), async () => await _moviesRepository.GetMovieById(item.Id), movie => movie == null);
                 await _genericFunctions.UpdateIfNullAsync(item, nameof(item.Customer), async () => await _costumerRepository.GetCustomerById(item.CustomerId), customer => customer == null);
                 await _genericFunctions.UpdateIfNullAsync(item, nameof(item.Transaction), async () => await _transactionRepository.GetTransactionById(item.TransactionId), transaction => transaction == null);
-            }
+            }));
             return rentList[0];
         }
         public async Task AddRental(Guid id, Guid customerId, Guid movieId, Guid transactionId)
