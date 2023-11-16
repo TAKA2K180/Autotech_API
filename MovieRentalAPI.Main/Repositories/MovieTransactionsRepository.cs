@@ -10,11 +10,14 @@ namespace MovieRentalAPI.Main.Repositories
 {
     public class MovieTransactionsRepository
     {
+        #region Private variables
         private readonly MoviesRepository _moviesRepository = new MoviesRepository();
-        private readonly CostumersRepository _costumerRepository = new CostumersRepository();
+        private readonly CustomersRepository _costumerRepository = new CustomersRepository();
         private readonly IDataService<MovieTransaction> _dataService = new GenericDataService<MovieTransaction>(new ApplicationDbContextFactory(null));
         private GenericFunctions _genericFunctions = new GenericFunctions();
+        #endregion
 
+        #region Functions
         public async Task<List<MovieTransaction>> GetAllTransactions()
         {
             var transactionLists = await Task.WhenAll(_dataService.GetAll());
@@ -24,7 +27,7 @@ namespace MovieRentalAPI.Main.Repositories
                 .Select(async trans =>
                 {
                     await _genericFunctions.UpdateIfNullAsync(trans, nameof(trans.Movie), async () => await _moviesRepository.GetMovieById(trans.MovieId), movie => movie == null);
-                    await _genericFunctions.UpdateIfNullAsync(trans, nameof(trans.Costumer), async () => await _costumerRepository.GetCostumerById(trans.CostumerId), costumer => costumer == null);
+                    await _genericFunctions.UpdateIfNullAsync(trans, nameof(trans.Customer), async () => await _costumerRepository.GetCustomerById(trans.CustomerId), costumer => costumer == null);
 
                     return trans;
                 });
@@ -39,7 +42,7 @@ namespace MovieRentalAPI.Main.Repositories
             foreach (var item in transactionLists)
             {
                 await _genericFunctions.UpdateIfNullAsync(item, nameof(item.Movie), async () => await _moviesRepository.GetMovieById(item.MovieId), movie => movie == null);
-                await _genericFunctions.UpdateIfNullAsync(item, nameof(item.Costumer), async () => await _costumerRepository.GetCostumerById(item.CostumerId), costumer => costumer == null);
+                await _genericFunctions.UpdateIfNullAsync(item, nameof(item.Customer), async () => await _costumerRepository.GetCustomerById(item.CustomerId), costumer => costumer == null);
             }
             return transactionLists[0];
         }
@@ -50,7 +53,7 @@ namespace MovieRentalAPI.Main.Repositories
             {
                 TotalAmount = totalAmount,
                 MovieId = movieId,
-                CostumerId = customerId,
+                CustomerId = customerId,
                 TransactionDate = DateTime.Now,
                 IsReturned = isReturned
             };
@@ -66,6 +69,7 @@ namespace MovieRentalAPI.Main.Repositories
         public async Task UpdateTransaction(MovieTransaction transaction)
         {
             await _dataService.Update(transaction);
-        }
+        } 
+        #endregion
     }
 }

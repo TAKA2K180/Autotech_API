@@ -11,7 +11,7 @@ namespace MovieRental.Test.Repositories
 {
     public class CostumerRepository
     {
-        private MovieRentalAPI.Main.Repositories.CostumersRepository _costumerRepository = new MovieRentalAPI.Main.Repositories.CostumersRepository();
+        private MovieRentalAPI.Main.Repositories.CustomersRepository _costumerRepository = new MovieRentalAPI.Main.Repositories.CustomersRepository();
 
         [Fact]
         public async Task GetAllCostumer_ShouldReturnListOfCostumers()
@@ -20,10 +20,10 @@ namespace MovieRental.Test.Repositories
             // ...
 
             // Act
-            var result = await _costumerRepository.GetAllCostumer();
+            var result = await _costumerRepository.GetAllCustomer();
             // Assert
             Assert.NotNull(result);
-            Assert.IsType<List<Costumer>>(result);
+            Assert.IsType<List<Customer>>(result);
             Assert.True(result.Count > 0);
         }
 
@@ -34,11 +34,11 @@ namespace MovieRental.Test.Repositories
             var existingCostumerId = Guid.Parse("C5FC283C-5F73-4525-B82C-9677C767C33B");
 
             // Act
-            var result = await _costumerRepository.GetCostumerById(existingCostumerId);
+            var result = await _costumerRepository.GetCustomerById(existingCostumerId);
 
             // Assert
             Assert.NotNull(result);
-            Assert.IsType<Costumer>(result);
+            Assert.IsType<Customer>(result);
             Assert.Equal(existingCostumerId, result.Id);
         }
 
@@ -53,10 +53,10 @@ namespace MovieRental.Test.Repositories
             var Id = Guid.NewGuid();
 
             // Act
-            await _costumerRepository.AddCostumer(Id, name, email, phone, isActive);
+            await _costumerRepository.AddCustomer(Id, name, email, phone, isActive);
 
             // Assert - Check if the costumer was added by querying the database or checking a count
-            var addedCostumer = await _costumerRepository.GetCostumerById(Id);
+            var addedCostumer = await _costumerRepository.GetCustomerById(Id);
             Assert.NotNull(addedCostumer);
             Assert.Equal(name, addedCostumer.Name);
             Assert.Equal(email, addedCostumer.Email);
@@ -71,10 +71,10 @@ namespace MovieRental.Test.Repositories
             var existingCostumerId = Guid.Parse("D942893E-6EF6-4F64-A5DD-F0916A0AB165");
 
             // Act
-            await _costumerRepository.DeleteCostumer(existingCostumerId);
+            await _costumerRepository.DeleteCustomer(existingCostumerId);
 
             // Assert - Check if the costumer was deleted by querying the database or checking a count
-            var deletedCostumer = await _costumerRepository.GetCostumerById(existingCostumerId);
+            var deletedCostumer = await _costumerRepository.GetCustomerById(existingCostumerId);
             Assert.Null(deletedCostumer);
         }
 
@@ -83,7 +83,7 @@ namespace MovieRental.Test.Repositories
         {
             // Arrange - Assuming a costumer with a known ID exists in the test database
             var existingCostumerId = Guid.Parse("C5FC283C-5F73-4525-B82C-9677C767C33B");
-            var updatedCostumer = new Costumer
+            var updatedCostumer = new Customer
             {
                 Id = existingCostumerId,
                 Name = "Updated Costumer",
@@ -93,10 +93,10 @@ namespace MovieRental.Test.Repositories
             };
 
             // Act
-            await _costumerRepository.UpdateCostumer(updatedCostumer);
+            await _costumerRepository.UpdateCustomer(updatedCostumer);
 
             // Assert - Check if the costumer was updated by querying the database or checking details
-            var modifiedCostumer = await _costumerRepository.GetCostumerById(existingCostumerId);
+            var modifiedCostumer = await _costumerRepository.GetCustomerById(existingCostumerId);
             Assert.NotNull(modifiedCostumer);
             Assert.Equal(updatedCostumer.Name, modifiedCostumer.Name);
             Assert.Equal(updatedCostumer.Email, modifiedCostumer.Email);

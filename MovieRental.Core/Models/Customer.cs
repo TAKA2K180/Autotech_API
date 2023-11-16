@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MovieRental.Core.Models
 {
-    public class Costumer : BaseModel
+    public class Customer : BaseModel
     {
         [Required]
         public string Name { get; set; }
@@ -15,5 +15,7 @@ namespace MovieRental.Core.Models
         public string Email { get; set; }
         public string Phone { get; set; }
         public bool isActive { get; set; }
+
+        public ICollection<MovieTransaction> MovieTransactions { get; set; }
     }
 }

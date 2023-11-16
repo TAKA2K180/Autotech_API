@@ -8,21 +8,21 @@ namespace MovieRentalAPI.Main.Controllers.v1
 {
     [Route("api/v1/Costumers")]
     [ApiController]
-    public class CostumersController : ControllerBase
+    public class CustomersController : ControllerBase
     {
-        private readonly CostumersRepository _repository = new CostumersRepository();
+        private readonly CustomersRepository _repository = new CustomersRepository();
         // GET: api/<CostumersController>
         [HttpGet]
-        public async Task<List<Costumer>> Get()
+        public async Task<List<Customer>> Get()
         {
-            return await _repository.GetAllCostumer();
+            return await _repository.GetAllCustomer();
         }
 
         // GET api/<CostumersController>/5
         [HttpGet("{id}")]
-        public async Task<Costumer> Get(Guid id)
+        public async Task<Customer> Get(Guid id)
         {
-            return await _repository.GetCostumerById(id);
+            return await _repository.GetCustomerById(id);
         }
 
         // POST api/<CostumersController>
@@ -31,7 +31,7 @@ namespace MovieRentalAPI.Main.Controllers.v1
         {
             try
             {
-                await _repository.AddCostumer(Guid.NewGuid(), name, email, phone, isActive);
+                await _repository.AddCustomer(Guid.NewGuid(), name, email, phone, isActive);
                 return Ok();
             }
             catch (Exception)
@@ -42,11 +42,11 @@ namespace MovieRentalAPI.Main.Controllers.v1
 
         // PUT api/<CostumersController>/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(Costumer costumer)
+        public async Task<IActionResult> Put(Customer costumer)
         {
             try
             {
-                await _repository.UpdateCostumer(costumer);
+                await _repository.UpdateCustomer(costumer);
                 return Ok();
             }
             catch (Exception)
@@ -61,7 +61,7 @@ namespace MovieRentalAPI.Main.Controllers.v1
         {
             try
             {
-                await _repository.DeleteCostumer(id);
+                await _repository.DeleteCustomer(id);
                 return Ok();
             }
             catch (Exception)

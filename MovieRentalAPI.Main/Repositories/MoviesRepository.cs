@@ -9,8 +9,11 @@ namespace MovieRentalAPI.Main.Repositories
 {
     public class MoviesRepository
     {
-        private readonly IDataService<Movie> dataService = new GenericDataService<Movie>(new ApplicationDbContextFactory(null));
+        #region Private variables
+        private readonly IDataService<Movie> dataService = new GenericDataService<Movie>(new ApplicationDbContextFactory(null)); 
+        #endregion
 
+        #region Functions
         public async Task<List<Movie>> GetAllMovies()
         {
             var movieList = await Task.WhenAll(dataService.GetAll());
@@ -45,6 +48,7 @@ namespace MovieRentalAPI.Main.Repositories
         public async Task UpdateMovie(Movie movie)
         {
             await dataService.Update(movie);
-        }
+        } 
+        #endregion
     }
 }

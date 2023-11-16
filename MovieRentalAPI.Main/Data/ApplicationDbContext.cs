@@ -7,27 +7,45 @@ namespace MovieRentalAPI.Main.Data
     public class ApplicationDbContext : DbContext
     {
         private readonly IConfiguration _configuration;
-        private const string CONSTRING = "Data Source=.\\SQLEXPRESS;Database=dbo.MovieRental;Integrated Security=false;User ID=sa;Password=,rhsm098;Encrypt=false";
         public ApplicationDbContext(DbContextOptions options, IConfiguration configuration) : base(options)
         {
-            _configuration = configuration; 
+            _configuration = configuration;
         }
 
-        public DbSet<Costumer> Costumers { get; set; }
+        public DbSet<Customer> Customers { get; set; }
         public DbSet<Movie> Movies { get; set; }
         public DbSet<MovieTransaction> Transactions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
-        }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlServer(CONSTRING);
-            }
+            modelBuilder.Entity<Movie>()
+            .ToTable("Movies"); 
+
+            modelBuilder.Entity<Customer>()
+                .ToTable("Customers");
+
+            modelBuilder.Entity<MovieTransaction>()
+                .ToTable("Transactions");
+
+            modelBuilder.Entity<MovieTransaction>()
+                .HasKey(mt => mt.Id);
+
+            modelBuilder.Entity<Movie>()
+                .HasKey(m => m.Id);
+
+            modelBuilder.Entity<Customer>()
+                .HasKey(c => c.Id);
+
+            modelBuilder.Entity<MovieTransaction>()
+                .HasOne(mt => mt.Movie)
+                .WithMany(m => m.MovieTransactions)
+                .HasForeignKey(mt => mt.MovieId);
+
+            modelBuilder.Entity<MovieTransaction>()
+                .HasOne(mt => mt.Customer)
+                .WithMany(c => c.MovieTransactions)
+                .HasForeignKey(mt => mt.CustomerId);
         }
     }
 }
