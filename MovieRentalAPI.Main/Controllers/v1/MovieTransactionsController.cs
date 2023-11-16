@@ -33,7 +33,7 @@ namespace MovieRentalAPI.Main.Controllers.v1
         {
             try
             {
-                await _repository.AddTransaction(movieId,customerId,totalAmount,isReturned);
+                await _repository.AddTransaction(Guid.NewGuid(), movieId,customerId,totalAmount,isReturned);
                 return Ok();
             }
             catch (Exception)

@@ -12,8 +12,9 @@ namespace MovieRental.Core.Models
         public string Description { get; set; }
         public decimal? Price { get; set; }
         public string Category { get; set; }
-        public DateTime DateCreated { get; set; }
+        public DateTime TransactionDate { get; set; }
 
         public ICollection<MovieTransaction> MovieTransactions { get; set; }
+        public ICollection<Rentals> Rentals { get; set; }
     }
 }

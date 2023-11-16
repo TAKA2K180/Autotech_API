@@ -17,5 +17,7 @@ namespace MovieRental.Core.Models
         public Guid CustomerId { get; set; }
         public DateTime? TransactionDate { get; set; }
         public bool IsReturned { get; set; }
+
+        public ICollection<Rentals> Rentals { get; set; }
     }
 }

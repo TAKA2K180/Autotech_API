@@ -90,7 +90,7 @@ namespace MovieRental.Test.Repositories
                 Description = "Updated Description",
                 Price = 14.99m,
                 Category = "Updated Category",
-                DateCreated = DateTime.Now
+                TransactionDate = DateTime.Now
             };
 
             // Act

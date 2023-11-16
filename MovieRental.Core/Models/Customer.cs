@@ -17,5 +17,6 @@ namespace MovieRental.Core.Models
         public bool isActive { get; set; }
 
         public ICollection<MovieTransaction> MovieTransactions { get; set; }
+        public ICollection<Rentals> Rentals { get; set; }
     }
 }

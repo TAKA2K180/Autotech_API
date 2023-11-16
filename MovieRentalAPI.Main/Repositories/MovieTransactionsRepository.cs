@@ -27,6 +27,7 @@ namespace MovieRentalAPI.Main.Repositories
                 .Select(async trans =>
                 {
                     await _genericFunctions.UpdateIfNullAsync(trans, nameof(trans.Movie), async () => await _moviesRepository.GetMovieById(trans.MovieId), movie => movie == null);
+
                     await _genericFunctions.UpdateIfNullAsync(trans, nameof(trans.Customer), async () => await _costumerRepository.GetCustomerById(trans.CustomerId), costumer => costumer == null);
 
                     return trans;
@@ -47,10 +48,11 @@ namespace MovieRentalAPI.Main.Repositories
             return transactionLists[0];
         }
 
-        public async Task AddTransaction(Guid movieId, Guid customerId, decimal totalAmount, bool isReturned)
+        public async Task AddTransaction(Guid Id, Guid movieId, Guid customerId, decimal totalAmount, bool isReturned)
         {
             var movieTransaction = new MovieTransaction
             {
+                Id = Id,
                 TotalAmount = totalAmount,
                 MovieId = movieId,
                 CustomerId = customerId,

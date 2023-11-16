@@ -36,7 +36,7 @@ namespace MovieRentalAPI.Main.Repositories
                 Description = Description,
                 Price = Price,
                 Category = Category,
-                DateCreated = DateTime.Now
+                TransactionDate = DateTime.Now
             });
         }
 

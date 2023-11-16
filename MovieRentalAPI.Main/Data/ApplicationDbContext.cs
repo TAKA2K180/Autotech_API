@@ -16,6 +16,8 @@ namespace MovieRentalAPI.Main.Data
         public DbSet<Movie> Movies { get; set; }
         public DbSet<MovieTransaction> Transactions { get; set; }
 
+        public DbSet<Rentals> Rentals { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
@@ -27,6 +29,9 @@ namespace MovieRentalAPI.Main.Data
 
             modelBuilder.Entity<MovieTransaction>()
                 .ToTable("Transactions");
+
+            modelBuilder.Entity<Rentals>()
+                .ToTable("Rentals");
 
             modelBuilder.Entity<MovieTransaction>()
                 .HasKey(mt => mt.Id);
@@ -46,6 +51,21 @@ namespace MovieRentalAPI.Main.Data
                 .HasOne(mt => mt.Customer)
                 .WithMany(c => c.MovieTransactions)
                 .HasForeignKey(mt => mt.CustomerId);
+
+            modelBuilder.Entity<Rentals>()
+            .HasOne(r => r.Movie)
+            .WithMany(m => m.Rentals)
+            .HasForeignKey(r => r.MovieId);
+
+            modelBuilder.Entity<Rentals>()
+                .HasOne(r => r.Customer)
+                .WithMany(c => c.Rentals)
+                .HasForeignKey(r => r.CustomerId);
+
+            modelBuilder.Entity<Rentals>()
+                .HasOne(r => r.Transaction)
+                .WithMany(t => t.Rentals)
+                .HasForeignKey(r => r.TransactionId);
         }
     }
 }
