@@ -9,7 +9,6 @@ namespace MovieRentalAPI.Main.Data
     {
         private readonly DbContextOptions<ApplicationDbContext> _options;
         private readonly IConfiguration _configuration;
-        private const string CONSTRING = "Data Source=.\\SQLEXPRESS;Database=dbo.MovieRental;Integrated Security=false;User ID=sa;Password=,rhsm098;Encrypt=false";
 
         public ApplicationDbContextFactory()
         {
@@ -22,9 +21,16 @@ namespace MovieRentalAPI.Main.Data
 
         public ApplicationDbContext CreateDbContext(string[] args = null)
         {
-            var options = new DbContextOptionsBuilder<ApplicationDbContext>();
-            options.UseSqlServer(CONSTRING);
-            return new ApplicationDbContext(options.Options,_configuration);
+            IConfigurationRoot configuration = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json")
+            .Build();
+
+            // Build options
+            var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
+            optionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+
+            return new ApplicationDbContext(optionsBuilder.Options, configuration);
         }
     }
 }

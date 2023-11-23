@@ -22,7 +22,7 @@ namespace MovieRentalAPI.Main.Data
         {
 
             modelBuilder.Entity<Movie>()
-            .ToTable("Movies"); 
+                .ToTable("Movies"); 
 
             modelBuilder.Entity<Customer>()
                 .ToTable("Customers");
