@@ -42,6 +42,9 @@ namespace MovieRentalAPI.Main.Data
             modelBuilder.Entity<Customer>()
                 .HasKey(c => c.Id);
 
+            modelBuilder.Entity<Rentals>()
+                .HasKey(r => r.Id);
+
             modelBuilder.Entity<MovieTransaction>()
                 .HasOne(mt => mt.Movie)
                 .WithMany(m => m.MovieTransactions)

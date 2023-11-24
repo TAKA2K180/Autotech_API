@@ -1,4 +1,5 @@
-﻿using MovieRental.Core.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using MovieRental.Core.Models;
 using MovieRental.Core.Services;
 using MovieRentalAPI.Main.Data;
 using MovieRentalAPI.Main.Data.Services;

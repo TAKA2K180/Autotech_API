@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace MovieRental.Core.Models
@@ -13,8 +14,9 @@ namespace MovieRental.Core.Models
         public decimal? Price { get; set; }
         public string Category { get; set; }
         public DateTime TransactionDate { get; set; }
-
+        [JsonIgnore]
         public ICollection<MovieTransaction> MovieTransactions { get; set; }
+        [JsonIgnore]
         public ICollection<Rentals> Rentals { get; set; }
     }
 }
