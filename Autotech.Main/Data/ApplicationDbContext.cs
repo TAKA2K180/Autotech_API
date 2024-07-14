@@ -13,11 +13,15 @@ namespace Autotech.Main.Data
         }
 
         public DbSet<Customer> Customers { get; set; }
+        public DbSet<Product> Products { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Customer>()
                 .ToTable("Customers");
+
+            modelBuilder.Entity<Product>()
+                .ToTable("Products");
         }
     }
 }
