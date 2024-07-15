@@ -12,16 +12,26 @@ namespace Autotech.Main.Data
             _configuration = configuration;
         }
 
-        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Accounts> Accounts { get; set; }
+        public DbSet<AccountDetails> AccountDetails { get; set; }
         public DbSet<Product> Products { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Customer>()
-                .ToTable("Customers");
+            modelBuilder.Entity<Accounts>()
+                .ToTable("Accounts");
 
             modelBuilder.Entity<Product>()
                 .ToTable("Products");
+
+            modelBuilder.Entity<Accounts>()
+            .HasKey(b => b.Id);
+
+            modelBuilder.Entity<Accounts>()
+                .HasOne(a => a.AccountDetails)
+                .WithOne(ad => ad.Accounts)
+                .HasForeignKey<AccountDetails>(ad => ad.Id);
+
         }
     }
 }
