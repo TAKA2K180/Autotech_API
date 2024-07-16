@@ -1,9 +1,12 @@
 ﻿using System.Net.NetworkInformation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using Autotech.Main.Data.Contracts;
+using Autotech.BusinessLayer.Data.Contracts;
+using Autotech.BusinessLayer.Data;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace Autotech.Main.Data
+namespace Autotech.BusinessLayer.Data
 {
     public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<ApplicationDbContext>
     {
@@ -28,9 +31,15 @@ namespace Autotech.Main.Data
 
             // Build options
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
-            optionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+            optionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
+                b => b.MigrationsAssembly("Autotech.BusinessLayer"));
+
 
             return new ApplicationDbContext(optionsBuilder.Options, configuration);
+        }
+        public void ConfigureServices(IServiceCollection services)
+        {
+            
         }
     }
 }

@@ -1,12 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Autotech.Core.Models;
 using Autotech.Core.Services;
-using Autotech.Main.Data;
-using Autotech.Main.Data.Services;
 using System.Linq;
-using Autotech.Main.Data.DTO;
+using Autotech.BusinessLayer.Data.DTO;
+using Autotech.BusinessLayer.Data.Services;
+using Autotech.BusinessLayer.Data;
 
-namespace Autotech.Main.Repositories
+namespace Autotech.BusinessLayer.Repositories
 {
     public class AccountsRepository
     {
@@ -45,6 +45,7 @@ namespace Autotech.Main.Repositories
                 DiscountPercent = model.Discount,
                 Cluster = model.Cluster,
                 Address = model.Address,
+                RegisterDate = model.RegisterDate,
                 AccountDetails = new AccountDetails
                 {
                     Id = newDetailId,

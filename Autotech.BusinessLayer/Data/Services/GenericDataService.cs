@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Internal;
 using Autotech.Core.Models;
 using Autotech.Core.Services;
 
-namespace Autotech.Main.Data.Services
+namespace Autotech.BusinessLayer.Data.Services
 {
     public class GenericDataService<T> : IDataService<T> where T : BaseModel
     {

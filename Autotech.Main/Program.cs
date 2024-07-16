@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
-using Autotech.Main.Data;
-using Autotech.Main.Data.Contracts;
+using Autotech.BusinessLayer.Data;
+using Autotech.BusinessLayer.Data.Contracts;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +17,7 @@ builder.Services.AddScoped<ApplicationDbContextFactory, ApplicationDbContextFact
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
-    options.UseSqlServer(connectionString);
+    options.UseSqlServer(connectionString, b => b.MigrationsAssembly("Autotech.BusinessLayer"));
 });
 
 // Configure CORS

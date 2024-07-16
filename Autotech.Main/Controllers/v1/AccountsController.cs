@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Autotech.Core.Models;
-using Autotech.Main.Repositories;
-using Autotech.Main.Data.DTO;
+using Autotech.BusinessLayer.Repositories;
+using Autotech.BusinessLayer.Data.DTO;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 

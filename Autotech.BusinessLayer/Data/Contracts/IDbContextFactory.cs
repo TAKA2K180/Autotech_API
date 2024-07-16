@@ -1,4 +1,4 @@
-﻿namespace Autotech.Main.Data.Contracts
+﻿namespace Autotech.BusinessLayer.Data.Contracts
 {
     public interface IDbContextFactory
     {

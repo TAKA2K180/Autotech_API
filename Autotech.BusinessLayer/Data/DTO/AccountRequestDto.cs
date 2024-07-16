@@ -1,6 +1,6 @@
 ﻿using Autotech.Core.Models;
 
-namespace Autotech.Main.Data.DTO
+namespace Autotech.BusinessLayer.Data.DTO
 {
     public class AccountRequestDto
     {
@@ -16,6 +16,7 @@ namespace Autotech.Main.Data.DTO
         public double LitersOrdered { get; set; }
         public int OpenReceipts { get; set; }
         public string Address { get; set; }
+        public DateTime RegisterDate { get; set; }
         public AccountDetails AccountDetails { get; set; }
     }
 }

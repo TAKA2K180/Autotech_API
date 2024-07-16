@@ -4,16 +4,19 @@ using Autotech.BusinessLayer.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Autotech.Main.Migrations
+namespace Autotech.BusinessLayer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240716163434_Itemsupdate3")]
+    partial class Itemsupdate3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -65,9 +68,15 @@ namespace Autotech.Main.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("LocationId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("RegisterDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("Terms")
                         .HasColumnType("int");
@@ -78,6 +87,87 @@ namespace Autotech.Main.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Accounts", (string)null);
+                });
+
+            modelBuilder.Entity("Autotech.Core.Models.ItemDetails", b =>
+                {
+                    b.Property<Guid?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<double>("BataanRetail")
+                        .HasColumnType("float");
+
+                    b.Property<double>("BataanWholeSale")
+                        .HasColumnType("float");
+
+                    b.Property<Guid>("ItemId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<double>("ItemsSold")
+                        .HasColumnType("float");
+
+                    b.Property<double>("OnHand")
+                        .HasColumnType("float");
+
+                    b.Property<double>("PampangaRetail")
+                        .HasColumnType("float");
+
+                    b.Property<double>("PampangaWholeSale")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Sales")
+                        .HasColumnType("float");
+
+                    b.Property<double>("ZambalesRetail")
+                        .HasColumnType("float");
+
+                    b.Property<double>("ZambalesWholeSale")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ItemDetails", (string)null);
+                });
+
+            modelBuilder.Entity("Autotech.Core.Models.Items", b =>
+                {
+                    b.Property<Guid?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ItemCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ItemDescription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ItemName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Items", (string)null);
+                });
+
+            modelBuilder.Entity("Autotech.Core.Models.Locations", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("LocationName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Locations", (string)null);
                 });
 
             modelBuilder.Entity("Autotech.Core.Models.Product", b =>

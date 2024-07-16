@@ -1,0 +1,2 @@
+Add-Migration 'migration name' -Project Autotech.BusinessLayer -StartupProject Autotech.Main
+Update-Database -Project Autotech.BusinessLayer -StartupProject Autotech.Main

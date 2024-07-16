@@ -12,15 +12,17 @@ namespace Autotech.Core.Models
     {
         [Required]
         public string Name { get; set; }
-        public string ContactPerson { get; set; }
+        public string? ContactPerson { get; set; }
         [EmailAddress]
-        public string Email { get; set; }
-        public string ContactNumber { get; set; }
-        public string Address { get; set; }
+        public string? Email { get; set; }
+        public string? ContactNumber { get; set; }
+        public string? Address { get; set; }
         public int Terms { get; set; }
         public double DiscountPercent { get; set; }
-        public string Cluster { get; set; }
+        public string? Cluster { get; set; }
         public bool isActive { get; set; }
+        public DateTime RegisterDate { get; set; }
+        public int LocationId { get; set; }
         public AccountDetails AccountDetails { get; set; }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using Autotech.Core.Models;
 
-namespace Autotech.Main.Data.DTO
+namespace Autotech.BusinessLayer.Data.DTO
 {
     public class TransactionDTO
     {
