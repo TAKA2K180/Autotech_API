@@ -27,11 +27,14 @@ namespace Autotech.Main.Controllers.v1
 
         // POST api/<AccountsController>
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] ItemRequestDto model)
+        public async Task<IActionResult> Post([FromBody] List<ItemRequestDto> model)
         {
             try
             {
-                await _repository.AddItem(model);
+                foreach (var item in model)
+                {
+                    await _repository.AddItem(item);
+                }
 
                 return Ok();
             }
