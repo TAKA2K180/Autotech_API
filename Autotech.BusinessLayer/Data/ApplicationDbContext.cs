@@ -51,6 +51,26 @@ namespace Autotech.BusinessLayer.Data
                 .WithOne(ad => ad.Accounts)
                 .HasForeignKey<AccountDetails>(ad => ad.Id);
 
+            // Configuring the one-to-many relationship between Location and Sales
+            modelBuilder.Entity<Sales>()
+                .HasOne(s => s.Location)
+                .WithMany(l => l.Sales)
+                .HasForeignKey(s => s.LocationId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Configuring the one-to-many relationship between Location and Agents
+            modelBuilder.Entity<Agents>()
+                .HasOne(a => a.Location)
+                .WithMany(l => l.Agents)
+                .HasForeignKey(a => a.LocationId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Configuring the one-to-many relationship between Location and Accounts
+            modelBuilder.Entity<Accounts>()
+                .HasOne(a => a.Location)
+                .WithMany(l => l.Accounts)
+                .HasForeignKey(a => a.LocationId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

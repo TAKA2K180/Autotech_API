@@ -22,7 +22,9 @@ namespace Autotech.Core.Models
         public string? Cluster { get; set; }
         public bool isActive { get; set; }
         public DateTime RegisterDate { get; set; }
-        public int LocationId { get; set; }
         public AccountDetails AccountDetails { get; set; }
+        // Foreign key to Location
+        public Guid LocationId { get; set; }
+        public Locations Location { get; set; }
     }
 }

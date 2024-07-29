@@ -27,4 +27,8 @@
     <ProjectReference Include="..\Autotech.Core\Autotech.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>

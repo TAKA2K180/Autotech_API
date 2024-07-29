@@ -15,6 +15,7 @@ namespace Autotech.BusinessLayer.Repositories
     {
         #region Private Variables
         private readonly IDataService<Agents> agentsData = new GenericDataService<Agents>(new ApplicationDbContextFactory(null));
+        private readonly IDataService<Locations> locationData = new GenericDataService<Locations>(new ApplicationDbContextFactory(null));
         #endregion
         #region Functions
 

@@ -20,8 +20,13 @@ namespace Autotech.Core.Models
         public DateTime DueDate { get; set; }
         public double RemainingBalance { get; set; }
         public string Status { get; set; }
-        public double  TotalLiters { get; set; }
+        public double TotalLiters { get; set; }
         public string Cluster { get; set; }
         public Guid AccountId { get; set; }
+        public Accounts Accounts { get; set; }
+
+        // Foreign key to Location
+        public Guid LocationId { get; set; }
+        public Locations Location { get; set; }
     }
 }

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Autotech.BusinessLayer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240717153143_Itemsupdate5")]
-    partial class Itemsupdate5
+    [Migration("20240729165504_locationRelationship")]
+    partial class locationRelationship
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,7 +27,7 @@ namespace Autotech.BusinessLayer.Migrations
 
             modelBuilder.Entity("Autotech.Core.Models.AccountDetails", b =>
                 {
-                    b.Property<Guid?>("Id")
+                    b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("AccountId")
@@ -46,7 +46,7 @@ namespace Autotech.BusinessLayer.Migrations
 
             modelBuilder.Entity("Autotech.Core.Models.Accounts", b =>
                 {
-                    b.Property<Guid?>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -68,8 +68,8 @@ namespace Autotech.BusinessLayer.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("LocationId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("LocationId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -86,12 +86,14 @@ namespace Autotech.BusinessLayer.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("LocationId");
+
                     b.ToTable("Accounts", (string)null);
                 });
 
             modelBuilder.Entity("Autotech.Core.Models.Agents", b =>
                 {
-                    b.Property<Guid?>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -114,8 +116,11 @@ namespace Autotech.BusinessLayer.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateLastLogin")
+                    b.Property<DateTime?>("DateLastLogin")
                         .HasColumnType("datetime2");
+
+                    b.Property<Guid>("LocationId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Password")
                         .IsRequired()
@@ -127,12 +132,14 @@ namespace Autotech.BusinessLayer.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("LocationId");
+
                     b.ToTable("Agents", (string)null);
                 });
 
             modelBuilder.Entity("Autotech.Core.Models.InvoicePayments", b =>
                 {
-                    b.Property<Guid?>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -163,7 +170,7 @@ namespace Autotech.BusinessLayer.Migrations
 
             modelBuilder.Entity("Autotech.Core.Models.ItemDetails", b =>
                 {
-                    b.Property<Guid?>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -204,7 +211,7 @@ namespace Autotech.BusinessLayer.Migrations
 
             modelBuilder.Entity("Autotech.Core.Models.Items", b =>
                 {
-                    b.Property<Guid?>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -235,11 +242,9 @@ namespace Autotech.BusinessLayer.Migrations
 
             modelBuilder.Entity("Autotech.Core.Models.Locations", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("LocationName")
                         .IsRequired()
@@ -252,7 +257,7 @@ namespace Autotech.BusinessLayer.Migrations
 
             modelBuilder.Entity("Autotech.Core.Models.Sales", b =>
                 {
-                    b.Property<Guid?>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -262,6 +267,9 @@ namespace Autotech.BusinessLayer.Migrations
                     b.Property<string>("AccountName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("AccountsId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Agent")
                         .IsRequired()
@@ -282,6 +290,9 @@ namespace Autotech.BusinessLayer.Migrations
 
                     b.Property<DateTime>("DueDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<Guid>("LocationId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("PaymentType")
                         .IsRequired()
@@ -308,6 +319,10 @@ namespace Autotech.BusinessLayer.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AccountsId");
+
+                    b.HasIndex("LocationId");
+
                     b.ToTable("Sales", (string)null);
                 });
 
@@ -322,6 +337,28 @@ namespace Autotech.BusinessLayer.Migrations
                     b.Navigation("Accounts");
                 });
 
+            modelBuilder.Entity("Autotech.Core.Models.Accounts", b =>
+                {
+                    b.HasOne("Autotech.Core.Models.Locations", "Location")
+                        .WithMany("Accounts")
+                        .HasForeignKey("LocationId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Location");
+                });
+
+            modelBuilder.Entity("Autotech.Core.Models.Agents", b =>
+                {
+                    b.HasOne("Autotech.Core.Models.Locations", "Location")
+                        .WithMany("Agents")
+                        .HasForeignKey("LocationId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Location");
+                });
+
             modelBuilder.Entity("Autotech.Core.Models.Items", b =>
                 {
                     b.HasOne("Autotech.Core.Models.ItemDetails", "itemDetails")
@@ -333,10 +370,38 @@ namespace Autotech.BusinessLayer.Migrations
                     b.Navigation("itemDetails");
                 });
 
+            modelBuilder.Entity("Autotech.Core.Models.Sales", b =>
+                {
+                    b.HasOne("Autotech.Core.Models.Accounts", "Accounts")
+                        .WithMany()
+                        .HasForeignKey("AccountsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Autotech.Core.Models.Locations", "Location")
+                        .WithMany("Sales")
+                        .HasForeignKey("LocationId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Accounts");
+
+                    b.Navigation("Location");
+                });
+
             modelBuilder.Entity("Autotech.Core.Models.Accounts", b =>
                 {
                     b.Navigation("AccountDetails")
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Autotech.Core.Models.Locations", b =>
+                {
+                    b.Navigation("Accounts");
+
+                    b.Navigation("Agents");
+
+                    b.Navigation("Sales");
                 });
 #pragma warning restore 612, 618
         }
