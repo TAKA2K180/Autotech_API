@@ -24,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Autotech.Common\Autotech.Common.csproj" />
     <ProjectReference Include="..\Autotech.Core\Autotech.Core.csproj" />
   </ItemGroup>
 

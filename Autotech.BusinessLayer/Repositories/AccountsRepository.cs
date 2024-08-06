@@ -12,6 +12,7 @@ namespace Autotech.BusinessLayer.Repositories
     {
         #region Private Variables
         private readonly IDataService<Accounts> dataService = new GenericDataService<Accounts>(new ApplicationDbContextFactory(null));
+        private readonly IDataService<Locations> locationDataService = new GenericDataService<Locations>(new ApplicationDbContextFactory(null));
 
         #endregion
 
@@ -19,10 +20,18 @@ namespace Autotech.BusinessLayer.Repositories
 
         public async Task<List<Accounts>> GetAllAccount()
         {
-            var accountList = await Task.WhenAll(dataService.GetAll());
-            List<Accounts> result = new List<Accounts>();
-            result = accountList.Select(a => a.ToList()).LastOrDefault() ?? new List<Accounts>();
-            return result;
+            var accounts = (await dataService.GetAll()).ToList();
+            var locations = (await locationDataService.GetAll()).ToDictionary(loc => loc.Id);
+
+            foreach (var account in accounts)
+            {
+                if (locations.TryGetValue(account.LocationId, out var location))
+                {
+                    account.Location = location;
+                }
+            }
+
+            return accounts;
         }
 
         public async Task<Accounts> GetAccountById(Guid id)
@@ -38,11 +47,11 @@ namespace Autotech.BusinessLayer.Repositories
                 Id = newHeaderId,
                 Name = model.Name,
                 Email = model.Email,
-                ContactNumber = model.Phone,
-                isActive = model.IsActive,
+                ContactNumber = model.ContactNumber,
+                isActive = model.isActive,
                 ContactPerson = model.ContactPerson,
                 Terms = model.Terms,
-                DiscountPercent = model.Discount,
+                DiscountPercent = model.DiscountPercent,
                 Cluster = model.Cluster,
                 Address = model.Address,
                 RegisterDate = model.RegisterDate,
@@ -51,7 +60,8 @@ namespace Autotech.BusinessLayer.Repositories
                     Id = newDetailId,
                     LitersOrdered = model.LitersOrdered,
                     OpenReceipts = model.OpenReceipts
-                }
+                },
+                LocationId = model.LocationId
             });
         }
 

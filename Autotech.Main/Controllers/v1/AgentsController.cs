@@ -12,7 +12,7 @@ namespace Autotech.Main.Controllers.v1
     {
         private readonly AgentsRepository _repository = new AgentsRepository();
         // GET: api/<AccountsController>
-        [HttpGet]
+        [HttpGet("Agents")]
         public async Task<List<Agents>> Get()
         {
             return await _repository.GetAllAgent();
@@ -68,6 +68,18 @@ namespace Autotech.Main.Controllers.v1
             catch (Exception)
             {
                 return NotFound();
+            }
+        }
+        [HttpGet("agents/{username}")]
+        public async Task<Agents> AgentLogin(string username, string password)
+        {
+            try
+            {
+                return await _repository.AgentLogin(username, password);
+            }
+            catch (Exception ex)
+            {
+                throw;
             }
         }
     }

@@ -35,7 +35,7 @@ namespace Autotech.BusinessLayer.Repositories
                 detail => detail.ItemId,
                 (item, details) =>
                 {
-                    item.itemDetails = details.FirstOrDefault();
+                    item.itemDetails = details.FirstOrDefault() ?? new ItemDetails();
                     return item;
                 }).ToList();
             return result;
